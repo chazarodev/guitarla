@@ -42,7 +42,7 @@ const Blog = ({entradas}) => { //Extraemos las entradas de la consulta a la API
 export async function getStaticProps() { //Función para consultar datos de una API en NEXT.js
 
     //getServerSideProps consulta al servidor en cada request
-    //getStaticProps realiza una consulta y mantiene la información estática
+    //getStaticProps realiza una consulta al compilar el proyecto en el build y mantiene la información estática
 
     /*Nota: Esta función esta corriendo en el servidor, es decir, esta utilizando server side rendering
     por lo que, realizar un console.log para ver la información por consola del browser (cliente) de la API no resultará */
