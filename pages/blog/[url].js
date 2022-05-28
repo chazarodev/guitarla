@@ -11,7 +11,9 @@ const EntradaBlog = ({entrada}) => {
     // console.log(router.query) Leemos la información del router
 
     return (
-        <Layout>
+        <Layout
+            pagina={titulo}
+        >
             <main className="contenedor">
                 <h1 className="heading">{titulo}</h1>
                 <article className={styles.entrada}>
@@ -57,7 +59,7 @@ export async function getStaticPaths() {
 
     //iterar sobre cada una de las entradas
     const paths = entradas.map(entrada => ({
-        params: {id: entrada.id.toString()}//Convertir el id en string para poder ser leído en las rutas
+        params: {url: entrada.url}//Convertir el id en string para poder ser leído en las rutas
     }))
 
     return { //Lo que se retorna, se hace disponible en getStaticProps
@@ -67,14 +69,14 @@ export async function getStaticPaths() {
 }
 
 //Código con staticProps con routing dinámico
-export async function getStaticProps({params: {id}}) {//Al retornar paths una función arriba, lo reemplazamos por query 
-    const url = `${process.env.API_URL}/blogs/${id}`
-    const respuesta = await fetch(url)
+export async function getStaticProps({params: {url}}) {//Al retornar paths una función arriba, lo reemplazamos por query 
+    const urlBlog = `${process.env.API_URL}/blogs?url=${url}`//Realizar consulta con filtros
+    const respuesta = await fetch(urlBlog)
     const entrada = await respuesta.json()
 
     return {
         props: {
-            entrada
+            entrada: entrada[0] //Pasamos la posición 0 ya que ahora la respuesta nos devuelve un arreglo
         }
     }
 }
