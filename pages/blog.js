@@ -48,7 +48,7 @@ export async function getStaticProps() { //Función para consultar datos de una 
     por lo que, realizar un console.log para ver la información por consola del browser (cliente) de la API no resultará */
     
     //Realizamos la consulta a la API
-    const url = `${process.env.API_URL}/blogs`
+    const url = `${process.env.API_URL}/blogs?_sort=created_at:desc`
     const respuesta = await fetch(url)
     const entradas = await respuesta.json()
     console.log(entradas); //La infromación se verá en la consola donde corre el servidor, no en la del cliente (browser)
