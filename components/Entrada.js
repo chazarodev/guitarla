@@ -14,7 +14,7 @@ const Entrada = ({entrada}) => {
                 layout='responsive' 
                 width={800} 
                 height={600} 
-                src={`http://localhost:1337${imagen.url}`} 
+                src={`${process.env.NEXT_PUBLIC_API_URL}${imagen.url}`} 
                 alt={`imagen blog ${titulo}`} 
             />
             <div className={styles.contenido}>

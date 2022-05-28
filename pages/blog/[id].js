@@ -1,36 +1,57 @@
-import { useRouter } from "next/router"
+import Image from "next/image"
+import Layout from "../../components/Layout"
+import { formatearFecha } from "../../helpers/index"
+import styles from "../../styles/Entrada.module.css"
 
-const EntradaBlog = () => {
+const EntradaBlog = ({entrada}) => {
 
-    const router = useRouter()
+    const {contenido, imagen, published_at, titulo} = entrada
 
-    console.log(router.query)//Leemos la información del router
+    // const router = useRouter()
+    // console.log(router.query) Leemos la información del router
 
     return (
-        <div>
-            <h1>Desde entrada</h1>
-        </div>
+        <Layout>
+            <main className="contenedor">
+                <h1 className="heading">{titulo}</h1>
+                <article className={styles.entrada}>
+                    <Image 
+                        layout="responsive"
+                        width={800}
+                        height={600}
+                        src={`${process.env.NEXT_PUBLIC_API_URL}${imagen.url}`}
+                        alt={`Imagen ${titulo}`}
+                    />
+                    <div className={styles.contenido}>
+                        <p className={styles.fecha}>{formatearFecha(published_at)}</p>
+                        <p className={styles.texto}>{contenido}</p>
+                    </div>
+                </article>
+            </main>
+        </Layout>
     )
 }
 
-//ServerSideProps automáticamente toma query por el routeing dinámico, por lo que, lo podemos pasar por props {}
-// export async function getServerSideProps({query: {id}}) { 
+/*
+ServerSideProps automáticamente toma query por el routeing dinámico, por lo que, lo podemos pasar por props {}
+export async function getServerSideProps({query: {id}}) { 
 
-//     const url = `http://localhost:1337/blogs/${id}`
-//     const respuesta = await fetch(url)
-//     const entrada = await respuesta.json()
+    const url = `http://localhost:1337/blogs/${id}`
+    const url = `${process.env.API_URL}/blogs/${id}`
+    const respuesta = await fetch(url)
+    const entrada = await respuesta.json()
 
-//     return {
-//         props: {
-//             entrada
-//         }
-//     }
-// }
-
+    return {
+        props: {
+            entrada
+        }
+    }
+}
+*/
 
 //Función staticPaths, se utiliza en conjunto con getStaticProps
 export async function getStaticPaths() {
-    const url = 'http://localhost:1337/blogs'
+    const url = `${process.env.API_URL}/blogs`
     const respuesta = await fetch(url)
     const entradas = await respuesta.json()
 
@@ -47,8 +68,7 @@ export async function getStaticPaths() {
 
 //Código con staticProps con routing dinámico
 export async function getStaticProps({params: {id}}) {//Al retornar paths una función arriba, lo reemplazamos por query 
-
-    const url = `http://localhost:1337/blogs/${id}`
+    const url = `${process.env.API_URL}/blogs/${id}`
     const respuesta = await fetch(url)
     const entrada = await respuesta.json()
 
