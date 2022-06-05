@@ -45,12 +45,19 @@ function MyApp({ Component, pageProps }) {
     setCarrito(carritoActualizado)
   }
 
+  //Función para eliminar un producto
+  const eliminarProducto = id => {//Eliminamos utilizando el método filter
+    const carritoActualizado = carrito.filter(articulo => articulo.id !== id) //Retorna arreglo nuevo con elementos filtrado
+    setCarrito(carritoActualizado)
+  }
+
   return (
     <Component 
       {...pageProps} 
       carrito={carrito} //estado se extrae en ./carrito
       agregarCarrito={agregarCarrito} //Función se extrae en ./guitarras/[url].js
       actualizarCantidad={actualizarCantidad} //Función se extrae en ../../components/Carrito.js
+      eliminarProducto={eliminarProducto} //Función se extrae en ../../components/Carrito.js
     />
   )
 }
