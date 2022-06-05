@@ -1,8 +1,17 @@
+import { useState, useEffect } from 'react'
 import Layout from "../components/Layout"
 import Image from 'next/image'
 import styles from '../styles/Carrito.module.css'
 
 const Carrito = ({carrito, actualizarCantidad, eliminarProducto}) => {
+
+    const [total, setTotal] = useState(0)
+
+    useEffect(() => {//Utilizar el método reduce para realizar la suma
+        //Nota: Reduce siempre toma dos parametros: el primero es la suma iterativa; el segundo la cantidad actual
+        const calculoTotal = carrito.reduce((total, producto) => total + (producto.cantidad * producto.precio) , 0) // 0 es el valor inicial
+        setTotal(calculoTotal)
+    }, [carrito])
 
     return (
         <Layout
@@ -11,6 +20,7 @@ const Carrito = ({carrito, actualizarCantidad, eliminarProducto}) => {
             <h1 className="heading">Carrito</h1>
             <main className={`contenedor ${styles.contenido}`}>
                 <div className={styles.carrito}>
+                    <h2>Artículos</h2>
                     {/* Validamos si carrito tiene información; sí cumple, iteramos carrito  */}
                     {carrito.length === 0 ? 'Carrito Vacío' : (
                         carrito.map(producto => (
@@ -63,7 +73,14 @@ const Carrito = ({carrito, actualizarCantidad, eliminarProducto}) => {
                         ))
                     )}
                 </div>
-                <div>2</div>
+                <div className={styles.resumen}>
+                    {total > 0 ? (
+                        <>
+                            <h3>Resumen del pedido</h3>
+                            <p>Total a Pagar: ${total}</p>
+                        </>
+                    ) : <p>No hay productos agregados al carrito</p>}
+                </div>
             </main>
         </Layout>
     )

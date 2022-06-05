@@ -5,6 +5,7 @@
 @media (min-width: 768px) {
     .contenido {
         grid-template-columns: 3fr 2fr;
+        align-items: flex-start; /* evita se alargue el resumen del pedido */
     }
 }
 
@@ -74,4 +75,10 @@
     cursor: pointer;
     color: crimson;
     font-size: 2.2rem;
+}
+.resumen {
+    background-color: #F9FAFB;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 3rem;
+    border-radius: 1rem;
 }
